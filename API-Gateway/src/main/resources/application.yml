@@ -1,0 +1,38 @@
+server:
+  port: 9005
+  
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+  
+  
+spring:
+  application:
+    name: Api-gateway
+    
+  cloud:
+    gateway:
+      routes:
+      - id: ADMIN-SERVICE
+        uri: lb://ADMIN-Service
+        predicates:
+        - Path=/contacts/**  
+      - id: BOOKING-SERVICE
+        uri: lb://BOOKING-SERVICE
+        predicates:
+        - Path=/Booking/**
+      - id: TRAINS-Service
+        uri: lb://TRAINS-Service
+        predicates:
+         - Path=/search/**,/trains/**
+      - id: UserLogin-Service
+        uri: lb://UserLogin-Service
+        predicates:
+         - Path=/login/**
+     
+      
